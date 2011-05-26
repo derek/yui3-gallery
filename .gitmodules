@@ -1,0 +1,3 @@
+[submodule "src/gallery-twitter"]
+	path = src/gallery-twitter
+	url = git://github.com/derek/yui-twitter.git
