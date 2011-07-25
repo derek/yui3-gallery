@@ -46,7 +46,6 @@
 
 .yui3-button-icon {
     background-repeat: no-repeat;
-    background-position: 0 -354px;
     width:20px;
     height:20px;
     vertical-align:middle;
@@ -66,31 +65,43 @@
     Icons
 ***/
 /* individual images are spaced 36px vertial top to top */
-.yui3-button-icon-bold .yui3-icon {background-position: 0 2px;}
-.yui3-button-icon-strikethrough {background-position: 0 -109px;}
-.yui3-button-icon-italic .yui3-icon {background-position: 0 -30px;}
-.yui3-button-icon-underline .yui3-icon {background-position: 0 -66px;}
-.yui3-button-icon-subscript .yui3-icon {background-position: 0 -174px;}
-.yui3-button-icon-superscript .yui3-icon {background-position: 0 -138px;}
-.yui3-button-icon-forecolor .yui3-icon {background-position: 0 -210px;}
-.yui3-button-icon-backcolor .yui3-icon {background-position: 0 -282px;}
-.yui3-button-icon-justifyleft .yui3-icon {background-position: 0 -318px;}
-.yui3-button-icon-justifycenter .yui3-icon {background-position: 0 -354px;}
-.yui3-button-icon-justifyright .yui3-icon {background-position: 0 -390px;}
-.yui3-button-icon-justifyfull .yui3-icon {background-position: 0 -426px;}
-.yui3-button-icon-indent .yui3-icon {background-position: 0 -714px;}
-.yui3-button-icon-outdent .yui3-icon {background-position: 0 -678px;}
-.yui3-button-icon-createlink .yui3-icon {background-position: 0 -786px;}
-.yui3-button-icon-insertimage .yui3-icon {background-position: 1px -750px;}
-.yui3-button-icon-left .yui3-icon {background-position: 0 -966px;}
-.yui3-button-icon-right .yui3-icon {background-position: 0 -930px;}
-.yui3-button-icon-inline .yui3-icon {background-position: 0 -894px;}
-.yui3-button-icon-block .yui3-icon {background-position: 0 -858px;}
-.yui3-button-icon-bordercolor .yui3-icon {background-position: 0 -246px;}
-.yui3-button-icon-removeformat .yui3-icon {background-position: 0 -1074px;}
-.yui3-button-icon-hiddenelements .yui3-icon {background-position: 0 -1038px;}
-.yui3-button-icon-insertunorderedlist .yui3-icon {background-position: 0 -462px;}
-.yui3-button-icon-insertorderedlist .yui3-icon {background-position: 0 -498px;}
+.yui3-button-icon-bold {background-position: 0 0px;}
+.yui3-button-icon-italic {background-position: 0 -36px;}
+.yui3-button-icon-underline {background-position: 0 -72px;}
+.yui3-button-icon-strikethrough {background-position: 0 -108px;}
+.yui3-button-icon-superscript {background-position: 0 -144px;}
+.yui3-button-icon-subscript {background-position: 0 -180px;}
+.yui3-button-icon-forecolor {background-position: 0 -216px;}
+.yui3-button-icon-backcolor {background-position: 0 -252px;}
+.yui3-button-icon-TBD {background-position: 0 -288px;}
+.yui3-button-icon-justifyleft {background-position: 0 -324px;}
+.yui3-button-icon-justifycenter {background-position: 0 -360px;}
+.yui3-button-icon-justifyright {background-position: 0 -396px;}
+.yui3-button-icon-justifyfull {background-position: 0 -432px;}
+.yui3-button-icon-unorderedlist {background-position: 0 -468px;}
+.yui3-button-icon-orderedlist {background-position: 0 -504px;}
+.yui3-button-icon-TBD {background-position: 0 -540px;}
+.yui3-button-icon-TBD {background-position: 0 -576px;}
+.yui3-button-icon-TBD {background-position: 0 -612px;}
+.yui3-button-icon-TBD {background-position: 0 -648px;}
+.yui3-button-icon-outdent {background-position: 0 -684px;}
+.yui3-button-icon-indent {background-position: 0 -720px;}
+.yui3-button-icon-insertimage {background-position: 1px -756px;}
+.yui3-button-icon-createlink {background-position: 0 -792px;}
+.yui3-button-icon-TBD {background-position: 0 -828px;}
+.yui3-button-icon-block {background-position: 0 -864px;}
+.yui3-button-icon-inline {background-position: 0 -900px;}
+.yui3-button-icon-floatright {background-position: 0 -936px;}
+.yui3-button-icon-floatleft {background-position: 0 -972px;}
+.yui3-button-icon-smiley {background-position: 0 -1008px;}
+.yui3-button-icon-hiddenelements {background-position: 0 -1044px;}
+.yui3-button-icon-removeformat {background-position: 0 -1080px;}
+.yui3-button-icon-TBD {background-position: 0 -1116px;}
+.yui3-button-icon-TBD {background-position: 0 -1152px;}
+.yui3-button-icon-TBD {background-position: 0 -1188px;}
+.yui3-button-icon-TBD {background-position: 0 -1224px;}
+.yui3-button-icon-TBD {background-position: 0 -1260px;}
+.yui3-button-icon-TBD {background-position: 0 -1296px;}
 
 
 /***
