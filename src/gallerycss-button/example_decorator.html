@@ -4,6 +4,10 @@
     	<link href="css/cssbutton.css" type="text/css" rel="stylesheet" />
         <script src="http://yui.yahooapis.com/3.4.0pr2/build/yui/yui-min.js"></script>
         <style>
+            body {  
+                font-family: "Gill Sans", "Gill Sans MT", Calibri, "Helvetica Neue", "Helvetica", sans-serif;
+                font-size:26px;
+            }
             body a{
                 text-decoration:none;
             }
@@ -13,45 +17,34 @@
         </style>
     </head>
     <body class="yui3-skin-sam">
-        <ul id="nav">
-            <li>Skin: 
-                <button class="yui3-button yui3-button-selected" id="skin-sam">Sam</button> | 
+        <ul>
+            <li>Skin
+                <button class="yui3-button yui3-button-selected" id="skin-sam">Sam</button>
                 <button class="yui3-button" id="skin-night">Night</button>
             </li>
-            <li>State: 
-                <button class="yui3-button yui3-button-selected" id="state-unselected">Unselected</button> | 
-                <button class="yui3-button" id="state-selected">Selected</button> | 
+            <li>State
+                <button class="yui3-button yui3-button-selected" id="state-unselected">Unselected</button>
+                <button class="yui3-button" id="state-selected">Selected</button>
                 <button class="yui3-button" id="state-disabled">Disabled</button>
             </li>
-            <li>Type: 
-                <button class="yui3-button yui3-button-selected" id="type-push">Push</button> | 
+            <li>Type
+                <button class="yui3-button yui3-button-selected" id="type-push">Push</button>
                 <button class="yui3-button" id="type-back">Back</button>
             </li>
         </ul>
+        <hr />
         <ul id="buttons">
-            <li><a href="/~drg/sandbox/buttons/" id="reload" class="yui3-button">Reload</a></li>
-            <li><a href="#foo" id="foo" class="yui3-button">/foo</a></li>
-            <li><a href="#bar" id="bar" class="yui3-button">/bar</a></li>
-            <li><a href="#baz" id="baz" class="yui3-button">/baz</a></li>
+            <li><a class="yui3-button">&lt;a&gt;</a></li>
             <li><button class="yui3-button">&lt;Button&gt;</button></li>
-            <li><input type="submit" class="yui3-button" value="Input Submit"></button></li>
+            <li><input type="submit" class="yui3-button" value="&lt;Input type='submit'&gt;"></input></li>
             <li class="yui3-button">
                 <span class="yui3-button-icon yui3-button-icon-strikethrough"></span>
                 <span class="yui-button-label">Icon &lt;div&gt;</span>
             </li>
-            
         </ul>
         
         <script>
             YUI({combine:false, filter:'raw'}).use('controller', 'node', function (Y) {
-                
-                var controller = new Y.Controller({
-                    routes: [
-                        {path: '(.*)+', callback: function (evt) {
-                            console.log(evt.path);
-                        }}
-                    ]
-                });
                 
                 Y.one('#skin-sam').on('click', function (evt) {
                     Y.one('#skin-sam').addClass("yui3-button-selected");
@@ -99,25 +92,6 @@
                     Y.one('#type-push').removeClass("yui3-button-selected");
                     Y.one('#type-back').addClass("yui3-button-selected");
                     Y.all('#buttons .yui3-button').addClass("yui3-button-back");
-                });
-
-                Y.one('#back').on('click', function (evt) {
-                    history.back();
-                });
-                
-                Y.one('#foo').on('click', function (evt) {
-                    controller.save('foo');
-                    evt.preventDefault();
-                });
-                
-                Y.one('#bar').on('click', function (evt) {
-                    controller.save('bar');
-                    evt.preventDefault();
-                });
-                
-                Y.one('#baz').on('click', function (evt) {
-                    controller.save('baz');
-                    evt.preventDefault();
                 });
                 
             });
