@@ -20,7 +20,8 @@
 .yui3-button-back {
 	-moz-border-radius: 0 0.4em 0.4em 0;
 	-webkit-border-radius: 0 0.4em 0.4em 0;
-	margin-left:32px;
+	margin-left:1.5em;
+	padding-right:1.5em;
 }
 
 .yui3-button-back:before {
