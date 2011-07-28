@@ -1,20 +1,18 @@
-
 /***
     Core Button Styles
 ***/
 .yui3-button {
 	-moz-border-radius: 0.4em;
 	-webkit-border-radius: 0.4em;
-	border:solid 1px;
-	font-size:1em;
-	height: 2em;
-	position: relative;
-	text-align:center;
-    cursor:pointer;
+    border: solid 1px;
+    cursor: pointer;
     display: inline-block;
+    height: 2em;
     line-height: 2em;
     margin: 1em;
     padding: 0 1em;
+    position: relative;
+    text-align: center;
 }
 
 .yui3-button-back {
@@ -27,17 +25,17 @@
 .yui3-button-back:before {
 	-moz-transform: rotate(-45deg);
 	-webkit-transform: rotate(-45deg);
-	border-bottom-color: transparent;
-	border-radius: 0.2em 0 30px 0;
-	border-right-color: transparent;
-	border-style: solid;
-	border-width: 1px 0 0 1px;
-	content: "";
-	height: 1.44em;
-	left: -0.82em;
-	position: absolute;
-	top: 0.27em;
-	width: 1.44em;
+    border-bottom-color: transparent;
+    border-radius: 0.2em 0 20px 0;
+    border-right-color: transparent;
+    border-style: solid;
+    border-width: 1px 0 0 1px;
+    content: "";
+    height: 1.44em;
+    left: -0.80em;
+    position: absolute;
+    top: 0.23em;
+    width: 1.44em;
 }
 
 .yui3-button:hover {
@@ -47,25 +45,26 @@
 
 .yui3-button-icon {
     background-repeat: no-repeat;
-    width:20px;
-    height:20px;
-    vertical-align:middle;
     display: inline-block;
+    height: 20px;
+    vertical-align: middle;
+    width: 20px;
+
 }
 
 .yui3-button-disabled,
 .yui3-button-disabled:hover{
-    cursor:default;
+    cursor: default;
 }
+
 .yui3-button-disabled .yui3-button-icon {
-    opacity: .3;
     filter: alpha(opacity=30);
+    opacity: .3;
 }
 
 /***
     Icons
 ***/
-/* individual images are spaced 36px vertial top to top */
 .yui3-button-icon-bold {background-position: 0 0px;}
 .yui3-button-icon-italic {background-position: 0 -36px;}
 .yui3-button-icon-underline {background-position: 0 -72px;}
@@ -109,7 +108,6 @@
     Skin: Sam
 ***/
 .yui3-skin-sam .yui3-button {
-    color:#000;
     background: -moz-linear-gradient(
         0% 100% 90deg, 
         #d8d8da 18%,
@@ -123,8 +121,9 @@
         color-stop(0.5, #f1f2f2),
         to(#fff)     
     );
-    background-color:#ececed;
+    background-color: #ececed;
     border-color: #808080;
+    color: #000;
 }
 
 .yui3-skin-sam .yui3-button-back:before {
@@ -147,7 +146,6 @@
 }
 
 .yui3-skin-sam .yui3-button:hover {
-    background-color: #d7e8ff;
     background: -moz-linear-gradient(
         0% 100% 90deg, 
         #bfdaff 0%,
@@ -162,6 +160,7 @@
         color-stop(0.5, #dfedff),
         to(#e8f2ff)     
     );
+    background-color: #d7e8ff;
     border-color: #7d98b8;
 }
 
@@ -185,8 +184,6 @@
 
 .yui3-skin-sam .yui3-button-selected,
 .yui3-skin-sam .yui3-button-selected:hover {
-    color:#fff;
-    background-color:#2B2D2D;
     background: -moz-linear-gradient(
         0% 100% 90deg, 
         #2647a0 7%,
@@ -202,6 +199,8 @@
         color-stop(0.5, #3d67ce),
         to(#426fd9)     
     );
+    background-color: #2B2D2D;
+    color: #fff;
 }
 
 .yui3-skin-sam .yui3-button-selected.yui3-button-back:before {
@@ -224,8 +223,6 @@
 
 .yui3-skin-sam .yui3-button-disabled,
 .yui3-skin-sam .yui3-button-disabled:hover{
-    color: #ccc;
-    border-color: #ccc;
     background: -moz-linear-gradient(
         0% 100% 90deg, 
         #e6e6e7 18%,
@@ -240,12 +237,13 @@
         color-stop(0.18, #e6e6e7),
         color-stop(0.5, #fbfbfb),
         to(#fff)     
-    );
+    );    
+    border-color: #ccc;
+    color: #ccc;
     cursor: default;
 }
 
 .yui3-skin-sam .yui3-button-disabled.yui3-button-back:before {
-    border-color: #ccc;
     background: -moz-linear-gradient(
         0% 100% 45deg, 
         #e6e6e7 18%,
@@ -261,6 +259,7 @@
         color-stop(0.5, #fbfbfb),
         to(#fff)  
     );
+    border-color: #ccc;
 }
 
 .yui3-skin-sam .yui3-button-icon {
@@ -274,10 +273,11 @@
 .yui3-skin-night a,
 .yui3-skin-night button,
 .yui3-skin-night input {
-    color:#fff;
+    color: #fff;
 }
+
 .yui3-skin-night {
-    background-color:#000;
+    background-color: #000;
 }
 
 .yui3-skin-night .yui3-button-back:before {
@@ -299,8 +299,6 @@
 }
 
 .yui3-skin-night .yui3-button:hover {
-	background-color:#424244;
-
 	background: -moz-linear-gradient(
 		0% 100% 90deg, 
 		#2e2e30 0%, 
@@ -315,14 +313,13 @@
         color-stop(0.96, #46474a),
         to(#3d3e3f)     
     );
+    background-color: #424244;
 }
+
 .yui3-skin-night .yui3-button,
 .yui3-skin-night .yui3-button-disabled:hover {
-	border-color: #0c0c0c;
-	-moz-box-shadow: 0 1px #222222; 
-	-webkit-box-shadow: 0 1px #222222;
-	box-shadow: 0 1px #222222;
-	background-color:#555658;
+    -moz-box-shadow: 0 1px #222222;
+    -webkit-box-shadow: 0 1px #222222;
 	background: -moz-linear-gradient(
 		0% 100% 90deg, 
 		#343536 0%, 
@@ -337,8 +334,10 @@
         color-stop(0.96, #555658),
         to(#3E3F41)     
     );
+    background-color: #555658;
+    border-color: #0c0c0c;
+    box-shadow: 0 1px #222222;
 }
-
 
 .yui3-skin-night .yui3-button-back:hover:before {
 	background: -moz-linear-gradient(
@@ -359,7 +358,6 @@
 
 .yui3-skin-night .yui3-button-selected,
 .yui3-skin-night .yui3-button-selected:hover {
-    background-color:#2B2D2D;
     background: -moz-linear-gradient(
     	0% 100% 90deg, 
     	#242526 0%, 
@@ -374,10 +372,10 @@
         color-stop(0.96, #3b3c3d),
         to(#2C2D2F)     
     );
+    background-color: #2B2D2D;
 }
 
 .yui3-skin-night .yui3-button-selected.yui3-button-back:before {
-    background-color:#2B2D2D;
     background: -moz-linear-gradient(
     	0% 100% 45deg, 
     	#242526 0%, 
@@ -392,6 +390,7 @@
         color-stop(0.96, #3b3c3d),
         to(#2C2D2F)     
     );
+    background-color: #2B2D2D;
 }
 
 .yui3-skin-night .yui3-button-disabled{
