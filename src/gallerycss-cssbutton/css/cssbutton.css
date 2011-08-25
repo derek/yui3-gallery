@@ -2,6 +2,8 @@
     Core Button Styles
 ***/
 .yui3-button {
+    background-repeat: repeat-x;
+    border-radius: 0.4em;
     -moz-border-radius: 0.4em;
     -webkit-border-radius: 0.4em;
     border: solid 1px;
@@ -13,9 +15,13 @@
     padding: 0 1em;
     position: relative;
     text-align: center;
+    transition: background-position .1s linear;
+    -moz-transition: background-position .1s linear;
+    -webkit-transition: background-position .1s linear;
 }
 
 .yui3-button-back {
+    border-radius: 0 0.4em 0.4em 0;
     -moz-border-radius: 0 0.4em 0.4em 0;
     -webkit-border-radius: 0 0.4em 0.4em 0;
     margin-left:1.5em;
@@ -23,8 +29,6 @@
 }
 
 .yui3-button-back:before {
-    -moz-transform: rotate(-45deg);
-    -webkit-transform: rotate(-45deg);
     border-bottom-color: transparent;
     border-radius: 0.2em 0 20px 0;
     border-right-color: transparent;
@@ -35,12 +39,19 @@
     left: -0.80em;
     position: absolute;
     top: 0.23em;
+    transform: rotate(-45deg);
+    -moz-transform: rotate(-45deg);
+    -webkit-transform: rotate(-45deg);
     width: 1.44em;
 }
 
 .yui3-button:hover {
     border-style: solid;
     border-width: 1px;
+    transition: background-position .1s linear;
+    -moz-transition: background-position .1s linear;
+    -webkit-transition: background-position .1s linear;
+    background-position: 0 -1em;
 }
 
 .yui3-button-icon {
@@ -49,17 +60,32 @@
     height: 20px;
     vertical-align: middle;
     width: 20px;
-
 }
 
-.yui3-button-disabled,
-.yui3-button-disabled:hover{
+.yui3-button-disabled {
     cursor: default;
 }
 
 .yui3-button-disabled .yui3-button-icon {
     filter: alpha(opacity=30);
     opacity: .3;
+}
+
+.yui3-button:active {
+    box-shadow: inset 0 3px 7px rgba(0, 0, 0, 0.1), 0 1px 2px rgba(0, 0, 0, 0.05);
+    -moz-box-shadow: inset 0 3px 7px rgba(0, 0, 0, 0.1), 0 1px 2px rgba(0, 0, 0, 0.05);
+    -webkit-box-shadow: inset 0 3px 7px rgba(0, 0, 0, 0.1), 0 1px 2px rgba(0, 0, 0, 0.05);
+}
+
+.yui3-button-back:hover, 
+.yui3-button-disabled:hover {
+    background-position: 0 0;
+}
+
+.yui3-button-back:active{
+    box-shadow: none;
+    -moz-box-shadow: none;
+    -webkit-box-shadow: none;
 }
 
 /***
@@ -108,163 +134,65 @@
     Skin: Sam
 ***/
 .yui3-skin-sam .yui3-button {
-    background: -moz-linear-gradient(
-        0% 100% 90deg, 
-        #d8d8da 18%,
-        #f1f2f2 50%,
-        #fff 100%
-    );
-    background: -webkit-gradient(
-        linear, left bottom, left top,
-        from(#d8d8da),
-        color-stop(0.18, #d8d8da),
-        color-stop(0.5, #f1f2f2),
-        to(#fff)     
-    );
-    background-color: #ececed;
+    background-image: -moz-linear-gradient(#fff, #d8d8da);
+    background-image: -webkit-linear-gradient(#fff, #d8d8da);
+    background-color: #d8d8da;
     border-color: #808080;
     color: #000;
 }
 
-.yui3-skin-sam .yui3-button-back:before {
-    background: -moz-linear-gradient(
-        0% 100% 45deg, 
-        #d8d8da 18%,
-        #f1f2f2 50%,
-        #fff 100%
-    );
-    background: -webkit-gradient(
-        linear,
-        left bottom,
-        right top,
-        from(#d8d8da),
-        color-stop(0.18, #d8d8da),
-        color-stop(0.5, #f1f2f2),
-        to(#fff)     
-    );
-    border-color: #808080;
-}
 
 .yui3-skin-sam .yui3-button:hover {
-    background: -moz-linear-gradient(
-        0% 100% 90deg, 
-        #bfdaff 0%,
-        #dfedff 50%,
-        #e8f2ff 100%
-    );
-    background: -webkit-gradient(
-        linear,
-        left bottom,
-        left top,
-        from(#bfdaff),
-        color-stop(0.5, #dfedff),
-        to(#e8f2ff)     
-    );
-    background-color: #d7e8ff;
-    border-color: #7d98b8;
-}
-
-.yui3-skin-sam .yui3-button-back:hover:before {
-    background: -moz-linear-gradient(
-        0% 100% 45deg, 
-        #bfdaff 0%,
-        #dfedff 50%,
-        #e8f2ff 100%
-    );
-    background: -webkit-gradient(
-        linear,
-        left bottom,
-        right top,
-        from(#bfdaff),
-        color-stop(0.5, #dfedff),
-        to(#e8f2ff)     
-    );
+    background-image: -moz-linear-gradient(#fff, #bfdaff);
+    background-image: -webkit-linear-gradient(#fff, #bfdaff);
+    background-color: #bfdaff;
     border-color: #7d98b8;
 }
 
 .yui3-skin-sam .yui3-button-selected,
 .yui3-skin-sam .yui3-button-selected:hover {
-    background: -moz-linear-gradient(
-        0% 100% 90deg, 
-        #2647a0 7%,
-        #3d67ce 50%,
-        #426fd9 100%
-    );
-    background: -webkit-gradient(
-        linear,                                           
-        left bottom,
-        left top,
-        from(#2647a0),
-        color-stop(0.07, #2647a0),
-        color-stop(0.5, #3d67ce),
-        to(#426fd9)     
-    );
-    background-color: #2B2D2D;
+    background-image: -moz-linear-gradient(#426fd9, #2647a0);
+    background-image: -webkit-linear-gradient(#426fd9, #2647a0);
+    background-color: #2647a0;
     color: #fff;
 }
 
+
+.yui3-skin-sam .yui3-button-back:before {
+    background-image: -moz-linear-gradient(45deg, #d8d8da, #fff);
+    background-image: -webkit-linear-gradient(45deg, #d8d8da, #fff);
+    border-color: #808080;
+}
+
+.yui3-skin-sam .yui3-button-back:hover:before {
+    background-image: -moz-linear-gradient(45deg, #bfdaff, #e8f2ff);
+    background-image: -webkit-linear-gradient(45deg, #bfdaff, #e8f2ff);
+    border-color: #7d98b8;
+}
+
 .yui3-skin-sam .yui3-button-selected.yui3-button-back:before {
-    background: -moz-linear-gradient(
-        0% 100% 45deg, 
-        #2647a0 7%,
-        #3d67ce 50%,
-        #426fd9 100%
-    );
-    background: -webkit-gradient(
-        linear,                                           
-        left bottom,
-        right top,
-        from(#2647a0),
-        color-stop(0.07, #2647a0),
-        color-stop(0.5, #3d67ce),
-        to(#426fd9)     
-    );
+    background-image: -moz-linear-gradient(45deg, #2647a0, #426fd9);
+    background-image: -webkit-linear-gradient(45deg, #2647a0, #426fd9);
 }
 
 .yui3-skin-sam .yui3-button-disabled,
 .yui3-skin-sam .yui3-button-disabled:hover{
-    background: -moz-linear-gradient(
-        0% 100% 90deg, 
-        #e6e6e7 18%,
-        #fbfbfb 50%,
-        #fff 100%
-    );
-    background: -webkit-gradient(
-        linear,
-        left bottom,
-        left top,
-        from(#e6e6e7),
-        color-stop(0.18, #e6e6e7),
-        color-stop(0.5, #fbfbfb),
-        to(#fff)     
-    );    
+    background-image: -moz-linear-gradient(#fff, #e6e6e7);
+    background-image: -webkit-linear-gradient(#fff, #e6e6e7);  
     border-color: #ccc;
     color: #ccc;
     cursor: default;
 }
 
 .yui3-skin-sam .yui3-button-disabled.yui3-button-back:before {
-    background: -moz-linear-gradient(
-        0% 100% 45deg, 
-        #e6e6e7 18%,
-        #fbfbfb 50%,
-        #fff 100%
-    );
-    background: -webkit-gradient(
-        linear,
-        left bottom,
-        right top,
-        from(#e6e6e7),
-        color-stop(0.18, #e6e6e7),
-        color-stop(0.5, #fbfbfb),
-        to(#fff)  
-    );
+    background-image:  -moz-linear-gradient(45deg, #e6e6e7, #fff);
     border-color: #ccc;
 }
 
 .yui3-skin-sam .yui3-button-icon {
-    background-image: url("assets/sam_icons.gif");
+    background-image: url("http://yui.yahooapis.com/gallery-2011.08.04-15-16/build/gallerycss-cssbutton/assets/sam_icons.gif");
 }
+
 
 /***
     Skin: Night
@@ -280,123 +208,41 @@
     background-color: #000;
 }
 
-.yui3-skin-night .yui3-button-back:before {
-	background: -moz-linear-gradient(
-		0% 100% 45deg, 
-		#343536 0%,
-		#555658 96%,
-		#3E3F41 100%
-	);
-    background: -webkit-gradient(
-        linear,
-        left bottom,
-        right top,
-        from(#343536),
-        color-stop(0.96, #555658),
-        to(#3E3F41)     
-    );
-    border-color: #0c0c0c;
-}
-
 .yui3-skin-night .yui3-button:hover {
-	background: -moz-linear-gradient(
-		0% 100% 90deg, 
-		#2e2e30 0%, 
-		#46474a 96%,
-		#3d3e3f 100%
-	);
-    background: -webkit-gradient(
-        linear,
-        left bottom,
-        left top,
-        from(#2e2e30),
-        color-stop(0.96, #46474a),
-        to(#3d3e3f)     
-    );
-    background-color: #424244;
 }
 
-.yui3-skin-night .yui3-button,
-.yui3-skin-night .yui3-button-disabled:hover {
+.yui3-skin-night .yui3-button {
     -moz-box-shadow: 0 1px #222222;
-    -webkit-box-shadow: 0 1px #222222;
-    background: -moz-linear-gradient(
-        0% 100% 90deg, 
-        #343536 0%, 
-        #555658 96%,
-        #3E3F41 100%
-    );
-    background: -webkit-gradient(
-        linear,
-        left bottom,
-        left top,
-        from(#343536),
-        color-stop(0.96, #555658),
-        to(#3E3F41)     
-    );
-    background-color: #555658;
+    background-image: -moz-linear-gradient(#3E3F41, #2C2D2F);
+    background-color: #2C2D2F;
     border-color: #0c0c0c;
-    box-shadow: 0 1px #222222;
-}
-
-.yui3-skin-night .yui3-button-back:hover:before {
-    background: -moz-linear-gradient(
-        0% 100% 45deg, 
-        #2e2e30 0%, 
-        #46474a 96%,
-        #3d3e3f 100%
-    );
-    background: -webkit-gradient(
-        linear,
-        left bottom,
-        right top,
-        from(#2e2e30),
-        color-stop(0.96, #46474a),
-        to(#3d3e3f)     
-    );
 }
 
 .yui3-skin-night .yui3-button-selected,
 .yui3-skin-night .yui3-button-selected:hover {
-    background: -moz-linear-gradient(
-        0% 100% 90deg, 
-        #242526 0%, 
-        #3b3c3d 96%,
-        #2C2D2F 100%
-    );
-    background: -webkit-gradient(
-        linear,
-        left bottom,
-        left top,
-        from(#242526),
-        color-stop(0.96, #3b3c3d),
-        to(#2C2D2F)     
-    );
-    background-color: #2B2D2D;
+    background-image: -moz-linear-gradient(#2C2D2F, #242526);
+    background-color: #242526;
+}
+
+.yui3-skin-night .yui3-button-back:before {
+	background-image: -moz-linear-gradient(45deg, #2C2D2F, #3E3F41);
+    border-color: #0c0c0c;
+}
+
+.yui3-skin-night .yui3-button-back:hover:before {
+    background-image: -moz-linear-gradient(45deg, #2e2e30, #3d3e3f);
 }
 
 .yui3-skin-night .yui3-button-selected.yui3-button-back:before {
-    background: -moz-linear-gradient(
-        0% 100% 45deg, 
-        #242526 0%, 
-        #3b3c3d 96%,
-        #2C2D2F 100%
-    );
-    background: -webkit-gradient(
-        linear,
-        left bottom,
-        right top,
-        from(#242526),
-        color-stop(0.96, #3b3c3d),
-        to(#2C2D2F)     
-    );
+    background-image: -moz-linear-gradient(45deg, #242526, #2C2D2F);
     background-color: #2B2D2D;
 }
 
-.yui3-skin-night .yui3-button-disabled{
+.yui3-skin-night .yui3-button-disabled,
+.yui3-skin-night .yui3-button-disabled:hover {
     color: #666;
 }
 
 .yui3-skin-night .yui3-button-icon {
-    background-image: url("assets/night_icons.gif");
+    background-image: url("http://yui.yahooapis.com/gallery-2011.08.04-15-16/build/gallerycss-cssbutton/assets/night_icons.gif");
 }
