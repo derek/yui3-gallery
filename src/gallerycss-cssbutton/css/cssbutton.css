@@ -165,8 +165,8 @@
 }
 
 .yui3-skin-sam .yui3-button-back:hover:before {
-    background-image: -moz-linear-gradient(45deg, #bfdaff, #e8f2ff);
-    background-image: -webkit-linear-gradient(45deg, #bfdaff, #e8f2ff);
+    background-image: -moz-linear-gradient(45deg, #bfdaff, #fff);
+    background-image: -webkit-linear-gradient(45deg, #bfdaff, #fff);
     border-color: #7d98b8;
 }
 
