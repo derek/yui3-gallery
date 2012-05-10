@@ -1128,16 +1128,13 @@ var default_page_size = 1e9,
 	field_container_class_prefix = field_container_class + '-',
 	field_class_prefix           = Y.ClassNameManager.getClassName(BulkEditor.NAME, 'field') + '-',
 
-	class_re_prefix = '(?:^|\\s)(?:',
-	class_re_suffix = ')(?:\\s|$)',
-
 	status_prefix  = 'bulkedit-has',
 	status_pattern = status_prefix + '([a-z]+)',
-	status_re      = new RegExp(class_re_prefix + status_pattern + class_re_suffix),
+	status_re      = new RegExp(Y.Node.class_re_prefix + status_pattern + Y.Node.class_re_suffix),
 
 	record_status_prefix  = 'bulkedit-hasrecord',
 	record_status_pattern = record_status_prefix + '([a-z]+)',
-	record_status_re      = new RegExp(class_re_prefix + record_status_pattern + class_re_suffix),
+	record_status_re      = new RegExp(Y.Node.class_re_prefix + record_status_pattern + Y.Node.class_re_suffix),
 
 	message_container_class = Y.ClassNameManager.getClassName(BulkEditor.NAME, 'message-text'),
 
@@ -1391,7 +1388,7 @@ Y.extend(BulkEditor, Y.Widget,
 	getRecordId: function(
 		/* object/element */	obj)
 	{
-		if (Y.Lang.isObject(obj) && !(obj instanceof Y.Node))
+		if (Y.Lang.isObject(obj) && !obj._node)
 		{
 			return obj[ this.get('ds').get('uniqueIdKey') ];
 		}
@@ -1418,7 +1415,7 @@ Y.extend(BulkEditor, Y.Widget,
 		{
 			var id = id_prefix + id_separator + record;
 		}
-		else if (record instanceof Y.Node)
+		else if (record && record._node)
 		{
 			return record.getAncestorByClassName(BulkEditor.record_container_class, true);
 		}
@@ -1452,7 +1449,7 @@ Y.extend(BulkEditor, Y.Widget,
 		/* string/object/element */	record,
 		/* string */				key)
 	{
-		if (record instanceof Y.Node)
+		if (record && record._node)
 		{
 			record = this.getRecordId(record);
 		}
@@ -1699,14 +1696,8 @@ Y.extend(BulkEditor, Y.Widget,
 		{
 			page:       page_errors || [],
 			records:    record_field_errors || [],
-			record_map: {}
+			record_map: Y.Array.toObject(record_field_errors || [], 'id')
 		};
-
-		Y.Array.each(this.server_errors.records, function(r)
-		{
-			this.server_errors.record_map[ r.id ] = r;
-		},
-		this);
 
 		this._updatePageStatus();
 
@@ -2179,16 +2170,7 @@ Y.extend(BulkEditor, Y.Widget,
 
 function cleanHTML(s)
 {
-	if (!s)
-	{
-		return '';
-	}
-
-	return s.toString()
-			.replace(/<\/?script>/ig, '')
-			.replace(/&/g, '&amp;')
-			.replace(/</g, '&lt;')
-			.replace(/>/g, '&gt;');
+	return (s ? Y.Escape.html(s) : '');
 }
 
 BulkEditor.error_msg_markup = Y.Lang.sub('<div class="{c}"></div>',
@@ -2268,10 +2250,9 @@ BulkEditor.markup =
 
 		var option = '<option value="{value}" {selected}>{text}</option>';
 
-		var options = '';
-		Y.Array.each(o.field.values, function(v)
+		var options = Y.Array.reduce(o.field.values, '', function(s, v)
 		{
-			options += Y.Lang.sub(option,
+			return s + Y.Lang.sub(option,
 			{
 				value:    v.value,
 				text:     cleanHTML(v.text),
@@ -2523,9 +2504,9 @@ Y.extend(HTMLTableBulkEditor, BulkEditor,
 
 			var row_markup = '<th class="{cell} {prefix}{key}">{label}</th>';
 
-			Y.Array.each(this.get('columns'), function(column)
+			s = Y.Array.reduce(this.get('columns'), s, function(s, column)
 			{
-				s += Y.Lang.sub(row_markup,
+				return s + Y.Lang.sub(row_markup,
 				{
 					cell:   cell_class,
 					prefix: cell_class_prefix,
@@ -2648,4 +2629,4 @@ Y.extend(HTMLTableBulkEditor, BulkEditor,
 Y.HTMLTableBulkEditor = HTMLTableBulkEditor;
 
 
-}, 'gallery-2011.09.07-20-35' ,{skinnable:true, optional:['datasource','dataschema','gallery-paginator'], requires:['widget','datasource-local','gallery-busyoverlay','gallery-formmgr-css-validation','gallery-node-optimizations','gallery-scrollintoview']});
+}, 'gallery-2012.05.09-20-27' ,{skinnable:true, optional:['datasource','dataschema','gallery-paginator'], requires:['widget','datasource-local','gallery-busyoverlay','gallery-formmgr-css-validation','gallery-node-optimizations','gallery-scrollintoview','array-extras','gallery-funcprog','escape']});

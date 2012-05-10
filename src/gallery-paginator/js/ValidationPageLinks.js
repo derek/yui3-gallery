@@ -1,7 +1,6 @@
 /**********************************************************************
  * Adds per-page error notification to Paginator.ui.PageLinks.
  *
- * @module gallery-paginator
  * @class Paginator.ui.ValidationPageLinks
  * @constructor
  * @param p {Pagintor} Paginator instance to attach to
@@ -12,7 +11,7 @@ Paginator.ui.ValidationPageLinks = function(
 {
 	Paginator.ui.ValidationPageLinks.superclass.constructor.call(this, p);
 
-    p.after('pageStatusChange', this.rebuild, this);
+	p.after('pageStatusChange', this.rebuild, this);
 };
 
 var vpl_status_prefix = 'yui3-has';
@@ -21,7 +20,7 @@ var vpl_status_prefix = 'yui3-has';
  * Array of status strings for each page.  If the status value for a page
  * is not empty, it is used to build a CSS class for the page:
  * yui3-has&lt;status&gt;
- * 
+ *
  * @attribute pageStatus
  */
 Paginator.ATTRS.pageStatus =
@@ -30,8 +29,8 @@ Paginator.ATTRS.pageStatus =
 	validator: Y.Lang.isArray
 };
 
-Y.extend(Paginator.ui.ValidationPageLinks, Paginator.ui.PageLinks, 
-{ 
+Y.extend(Paginator.ui.ValidationPageLinks, Paginator.ui.PageLinks,
+{
 	update: function(e)
 	{
 		if (e && e.prevVal === e.newVal)
@@ -43,12 +42,14 @@ Y.extend(Paginator.ui.ValidationPageLinks, Paginator.ui.PageLinks,
 
 		var curr_markup = '<span class="{link} {curr} {status}">{label}</span>';
 		var link_markup = '<a href="#" class="{link} {status}" page="{page}">{label}</a>';
+		var dis_markup  = '<span class="{link} disabled {status}" page="{page}">{label}</span>';
 
 		if (this.current !== currentPage || !currentPage || e.rebuild)
 		{
-			var linkClass    = this.paginator.get('pageLinkClass');
-			var status       = this.paginator.get('pageStatus');
-			var labelBuilder = this.paginator.get('pageLabelBuilder');
+			var linkClass    = this.paginator.get('pageLinkClass'),
+				status       = this.paginator.get('pageStatus'),
+				labelBuilder = this.paginator.get('pageLabelBuilder'),
+				disabled     = this.paginator.get('disabled');
 
 			var range =
 				Paginator.ui.PageLinks.calculateRange(
@@ -57,7 +58,7 @@ Y.extend(Paginator.ui.ValidationPageLinks, Paginator.ui.PageLinks,
 			var content = '';
 			for (var i=range[0]; i<=range[1]; i++)
 			{
-				content += Y.Lang.sub(i === currentPage ? curr_markup : link_markup,
+				content += Y.Lang.sub(i === currentPage ? curr_markup : disabled ? dis_markup : link_markup,
 				{
 					link:   linkClass,
 					curr:   (i === currentPage ? this.paginator.get('currentPageClass') : ''),
@@ -70,5 +71,5 @@ Y.extend(Paginator.ui.ValidationPageLinks, Paginator.ui.PageLinks,
 			this.container.set('innerHTML', content);
 		}
 	}
-	
+
 });

@@ -34,6 +34,7 @@ var em_div = null,
 
 /**********************************************************************
  * @method emToPx
+ * @param em_count {Number} the number of em's to convert (defaults to 1)
  * @return {Number} the size of one em in pixels
  * @static
  */
@@ -52,7 +53,7 @@ Y.Node.emToPx = function(
 		em_div.style.height     = '10em';
 		Y.config.doc.body.appendChild(em_div);
 	}
-	return em_count * (em_div.offsetWidth / 10.0);
+	return (em_count || 1) * (em_div.offsetWidth / 10.0);
 };
 
 /**********************************************************************
@@ -110,15 +111,11 @@ Y.Node.prototype.insideHeight = function()
 
 Y.Node.prototype.horizMarginBorderPadding = function()
 {
-	var w = 0;
-
-	Y.each(the_horiz_styles, function(style)
+	return Y.Array.reduce(the_horiz_styles, 0, function(w, style)
 	{
-		w += this.parseDimensionStyle(style);
+		return w + this.parseDimensionStyle(style);
 	},
 	this);
-
-	return w;
 };
 
 /**********************************************************************
@@ -128,15 +125,11 @@ Y.Node.prototype.horizMarginBorderPadding = function()
 
 Y.Node.prototype.vertMarginBorderPadding = function()
 {
-	var h = 0;
-
-	Y.each(the_vert_styles, function(style)
+	return Y.Array.reduce(the_vert_styles, 0, function(h, style)
 	{
-		h += this.parseDimensionStyle(style);
+		return h + this.parseDimensionStyle(style);
 	},
 	this);
-
-	return h;
 };
 
 /**********************************************************************
@@ -164,4 +157,4 @@ Y.Node.prototype.parseDimensionStyle = function(
 };
 
 
-}, 'gallery-2011.07.06-19-30' ,{requires:['node-style']});
+}, 'gallery-2012.03.23-18-00' ,{requires:['node-style','array-extras']});
