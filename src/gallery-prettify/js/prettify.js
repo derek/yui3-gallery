@@ -1,3 +1,5 @@
+YUI.add('gallery-prettify', function(Y) {
+
 // Copyright (C) 2006 Google Inc.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
@@ -1202,7 +1204,7 @@ var REGEXP_PRECEDER_PATTERN = '(?:^^\\.?|[+-]|[!=]=?=?|\\#|%=?|&&?=?|\\(|\\*=?|[
       var ext = fileExtensions[i];
       if (!langHandlerRegistry.hasOwnProperty(ext)) {
         langHandlerRegistry[ext] = handler;
-      } else if (win['console']) {
+      } else if (Y['console']) {
         console['warn']('cannot override language handler %s', ext);
       }
     }
@@ -1336,7 +1338,7 @@ var REGEXP_PRECEDER_PATTERN = '(?:^^\\.?|[+-]|[!=]=?=?|\\#|%=?|&&?=?|\\(|\\*=?|[
       // modifying the sourceNode in place.
       recombineTagsAndDecorations(job);
     } catch (e) {
-      if (win['console']) {
+      if (Y['console']) {
         console['log'](e && e['stack'] ? e['stack'] : e);
       }
     }
@@ -1399,7 +1401,7 @@ var REGEXP_PRECEDER_PATTERN = '(?:^^\\.?|[+-]|[!=]=?=?|\\#|%=?|&&?=?|\\(|\\*=?|[
     var preCodeXmpRe = /^(?:pre|code|xmp)$/i;
 
     function doWork() {
-      var endTime = (win['PR_SHOULD_USE_CONTINUATION'] ?
+      var endTime = (Y['PR_SHOULD_USE_CONTINUATION'] ?
                      clock['now']() + 250 /* ms */ :
                      Infinity);
       for (; k < elements.length && clock['now']() < endTime; k++) {
@@ -1495,7 +1497,7 @@ var REGEXP_PRECEDER_PATTERN = '(?:^^\\.?|[+-]|[!=]=?=?|\\#|%=?|&&?=?|\\(|\\*=?|[
    * Contains functions for creating and registering new language handlers.
    * @type {Object}
    */
-  var PR = win['PR'] = {
+  var PR = Y['PR'] = {
         'createSimpleLexer': createSimpleLexer,
         'registerLangHandler': registerLangHandler,
         'sourceDecorator': sourceDecorator,
@@ -1512,8 +1514,8 @@ var REGEXP_PRECEDER_PATTERN = '(?:^^\\.?|[+-]|[!=]=?=?|\\#|%=?|&&?=?|\\(|\\*=?|[
         'PR_STRING': PR_STRING,
         'PR_TAG': PR_TAG,
         'PR_TYPE': PR_TYPE,
-        'prettyPrintOne': win['prettyPrintOne'] = prettyPrintOne,
-        'prettyPrint': win['prettyPrint'] = prettyPrint
+        'prettyPrintOne': Y['prettyPrintOne'] = prettyPrintOne,
+        'prettyPrint': Y['prettyPrint'] = prettyPrint
       };
 
   // Make PR available via the Asynchronous Module Definition (AMD) API.
@@ -1534,3 +1536,6 @@ var REGEXP_PRECEDER_PATTERN = '(?:^^\\.?|[+-]|[!=]=?=?|\\#|%=?|&&?=?|\\(|\\*=?|[
     });
   }
 })();
+
+
+}, '@VERSION@' ,{skinnable:true});
