@@ -1,5 +1,17 @@
 var runTestLib = function (Y, O, N) {
-    var testSuite = new Y.Test.Suite('ZUI attribute');
+    var testSuite = new Y.Test.Suite('ZUI attribute'),
+        testObj = new Y.Base();
+
+    testObj.addAttrs({
+        attrA: {
+           value: 0
+        },
+        attrB: {
+           value: 3
+        }
+    });
+
+    O._revertList = {attrA: true, attrF: true};
 
     testSuite.add(new Y.Test.Case({
         name: N,
@@ -64,6 +76,25 @@ var runTestLib = function (Y, O, N) {
             Y.Assert.areSame('string', O.get('attrF'));
         },
 
+        testNoRevert: function () {
+            O.set('attrB', 9);
+
+            O.revert('attrB');
+            Y.Assert.areSame(9, O.get('attrB'));
+        },
+
+        testRevertAll: function () {
+            O._doRevert = true;
+            O.set('attrB', 12);
+            Y.Assert.areSame(12, O.get('attrB'));
+
+            O.set('attrB', 15);
+            Y.Assert.areSame(15, O.get('attrB'));
+
+            O.revert('attrB');
+            Y.Assert.areSame(12, O.get('attrB'));
+        },
+
         testSetAgain: function () {
             var setRun = 0;
 
@@ -90,6 +121,28 @@ var runTestLib = function (Y, O, N) {
 
             Y.Assert.areSame(4, setRun);
             Y.Assert.areSame('same value', O.get('attrA'));
+        },
+
+        testSync: function () {
+            O.sync('attrA', testObj);
+            Y.Assert.areSame(0, O.get('attrA'));
+
+            testObj.set('attrA', 2);
+            Y.Assert.areSame(2, O.get('attrA'));
+
+            O.unsync('attrA', testObj);
+            testObj.set('attrA', 4);
+            Y.Assert.areSame(2, O.get('attrA'));
+
+            O.sync('attrA', testObj, 'attrB');
+            Y.Assert.areSame(3, O.get('attrA'));
+
+            testObj.set('attrB', 4);
+            Y.Assert.areSame(4, O.get('attrA'));
+
+            O.unsync('attrA', testObj, 'attrB');
+            testObj.set('attrA', 5);
+            Y.Assert.areSame(4, O.get('attrA'));
         }
     }));
 

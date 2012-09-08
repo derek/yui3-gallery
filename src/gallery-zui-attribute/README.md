@@ -4,12 +4,12 @@ ZUI attribute
 Summary
 -------
 
-ZUI attribute provides revert() , toggle() , set_again() methods for Attribute.
+ZUI attribute provides revert() , toggle() , set_again(), sync(), unsync() methods for Attribute.
 
 Description
 -----------
 
-This module provides 3 more methods for Attribute:
+This module provides 5 more methods for Attribute:
 
 *   revert() : rollback attribute value to previous one
 
@@ -17,10 +17,16 @@ This module provides 3 more methods for Attribute:
 
 *   set_again() : set attribute value to current value, use this to trigger setter function or change event again.
 
+*   sync() : sync an attribute from other Object when the attribute value of other object changed, everytime.
+
+*   unsync() : remove the sync binding.
+
 Note
 ----
 
 *   do not use toggle() on none boolean value. It works, but the result may changed in future version.
+
+*   Now revert() is disabled by default for performance. You can set _doRevert property to true to enable revert() for all properties, or set _revertList as {propertyName: true, ...} hash for specified properties.
 
 *   YUI Base object mixed Attribute when Y.use('base') , if you try to Y.mix(Y.AttributeCore.prototype, Y.zui.Attribute.prototype, true) , it seens not work. 2 ways to resolve this:
 
@@ -43,11 +49,28 @@ Code Sample
     // Add ZUI attribute support to one instance
     Y.mix(myInstance, Y.zui.Attribute.prototype);
 
+    // enable revert() on 'testAttr2'
+    myInstance._revertList = {testAttr2: true};
+
+    // Or, enable revert() on all attributes
+    myInstance._doRevert = true;
+
     // Now, set an attribute
     myInstance.set('testAttr', 3);
 
     // And you can revert the attribute
     myInstance.revert('testAttr');
+
+    // Sync an attribute from another object
+    // Everytime objterObject.get('testAttr') changed, set() the value to myInstance
+    myInstance.sync('testAttr', otherObject);
+
+    // Sync an attribute from another object, specify a different attribute name
+    // Everytime objterObject.get('Attr2') changed, set() the value to myInstance
+    myInstance.sync('testAttr', otherObject, 'Attr2');
+
+    // Stop to monitering the attribute change
+    myInstance.unsync('testAttr', otherObject);
 
 
     // Or, add ZUI attribute support to a class (before creating any instance) 
