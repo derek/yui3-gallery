@@ -26,7 +26,7 @@ var WIDTH_CHANGE = 'widthChange',
  * @namespace Bottle
  * @extends Widget
  * @uses WidgetStdMod
- * @uses SyncScroll
+ * @uses Bottle.SyncScroll
  * @param [config] {Object} Object literal with initial attribute values
 
  */
@@ -42,8 +42,8 @@ SlideTab = Y.Base.create('btslidetab', Y.Widget, [Y.WidgetStdMod, Y.Bottle.SyncS
          * @private
          */
         this._bstEventHandlers = new Y.EventHandle([
-            this.after(WIDTH_CHANGE, this._updateSlide),
-            this.after(LABELWIDTH_CHANGE, this._updateSlide)
+            this.after(LABELWIDTH_CHANGE, this._updateSlide),
+            Y.once('btNative', this._nativeScroll, this)
         ]);
     },
 
@@ -72,16 +72,17 @@ SlideTab = Y.Base.create('btslidetab', Y.Widget, [Y.WidgetStdMod, Y.Bottle.SyncS
             }
         }, this);
         this.set('scrollView', scrollView);
-        this.initChildren();
+        this._updateSlide();
     },
 
     /**
-     * Initialize slider and tabs
+     * toggle internal scrollview to support nativeScroll mode
      *
-     * @method initChildren
+     * @method _nativeScroll
+     * @protected
      */
-    initChildren: function () {
-        this._updateSlide();
+    _nativeScroll: function () {
+        this.get('scrollView')._prevent = {move: false, start: false, end: false};
     },
 
     /**
@@ -127,6 +128,7 @@ SlideTab = Y.Base.create('btslidetab', Y.Widget, [Y.WidgetStdMod, Y.Bottle.SyncS
             W = this._percentWidth();
 
         this.get('labelNode').set('offsetWidth', W);
+
         if (scroll) {
             if (show) {
                 this._showNeighbors(false);
@@ -161,8 +163,7 @@ SlideTab = Y.Base.create('btslidetab', Y.Widget, [Y.WidgetStdMod, Y.Bottle.SyncS
             value: 0,
             lazyAdd: false,
             setter: function (V) {
-                var tab = this.get('tabNode'),
-                    ch = tab.get('children'),
+                var ch = this.get('tabNode').get('children'),
                     oldV = this.get('selectedIndex'),
                     old = ch.item(oldV),
                     O = ch.item(V);
@@ -302,4 +303,4 @@ SlideTab = Y.Base.create('btslidetab', Y.Widget, [Y.WidgetStdMod, Y.Bottle.SyncS
 Y.namespace('Bottle').SlideTab = SlideTab;
 
 
-}, '@VERSION@' ,{requires:['gallery-bt-syncscroll', 'scrollview', 'widget-stdmod', 'scrollview-paginator', 'gallery-zui-rascroll', 'gallery-zui-scrollsnapper']});
+}, '@VERSION@' ,{requires:['gallery-bt-syncscroll', 'widget-stdmod', 'gallery-zui-rascroll', 'gallery-zui-scrollsnapper']});

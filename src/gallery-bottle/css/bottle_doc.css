@@ -28,6 +28,10 @@
     border-left:1px solid #ccc;
 }
 
+#ft {
+    border-top:3px double #ccc;
+}
+
 h3 {
     color:#c84;
 }
@@ -73,18 +77,30 @@ body.btInit {
     word-break:break-all;
 }
 
+.btInit [data-role=shortcut] {
+    position:absolute;
+}
+
 .btInit .sidebox {
     margin:5px 5px 0;
+    width:240px;
+}
+
+.btInit .sidebox li {
+    word-break:break-all;
+}
+
+.btInit a {
+    display:inline-block;
+    font-size:20px;
+    padding:10px;
+    margin:2px;
+    background:#ffd;
+    border-radius:10px;
 }
 
 .btInit .btn.menu {
-    z-index:10;
-    position:absolute;
-    right:0;
     cursor:pointer;
-    width:40px;
-    height:40px;
-    background:url(shortcut.png) no-repeat;
-    background-size:cover;
-    opacity:0.5;
+    height:48px;
+    background:#fdf url(shortcut.png) no-repeat 100% 0;
 }

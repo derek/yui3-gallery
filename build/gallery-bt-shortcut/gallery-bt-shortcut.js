@@ -5,11 +5,16 @@ YUI.add('gallery-bt-shortcut', function(Y) {
  *
  * @module gallery-bt-shortcut
  */
-var Mask = Y.one('.bt-shortcut-mask') || Y.one('body').appendChild(Y.Node.create('<div class="bt-shortcut-mask"></div>')),
+var body = Y.one('body'),
+    Mask = Y.one('.bt-shortcut-mask') || body.appendChild(Y.Node.create('<div class="bt-shortcut-mask"></div>')),
     WIDTH_CHANGE = 'widthChange',
     HEIGHT_CHANGE = 'heightChange',
     VISIBLE_CHANGE = 'visibleChange',
 
+    hasTouch = Y.Bottle.Device.getTouchSupport(),
+    fixedPos = Y.Bottle.Device.getPositionFixedSupport(),
+
+    scrollBase = hasTouch ? body : Y.one('html'),
     pageWidget,
     pageNode,
 
@@ -23,10 +28,10 @@ var Mask = Y.one('.bt-shortcut-mask') || Y.one('body').appendChild(Y.Node.create
     },
 
     POSITIONS = {
-        top: ['tc', 0, -1, 'bc', 0.5, 0],
-        bottom: ['bc', 0, 1, 'tc', 0.5, 1],
-        left: ['lc', -1, 0, 'rc', 0, 0.5],
-        right: ['rc', 1, 0, 'lc', 1, 0.5]
+        top: [0, -1, 0.5, 0],
+        bottom: [0, 1, 0.5, 1],
+        left: [-1, 0, 0, 0.5],
+        right: [1, 0, 1, 0.5]
     },
 
     FULLWH = {
@@ -47,10 +52,10 @@ var Mask = Y.one('.bt-shortcut-mask') || Y.one('body').appendChild(Y.Node.create
      * @uses WidgetPosition
      * @uses WidgetStack
      * @uses WidgetPositionAlign
-     * @uses PushPop
+     * @uses Bottle.PushPop
      * @constructor
      */
-    ShortCut = Y.Base.create('btshortcut', Y.Widget, [Y.WidgetParent, Y.WidgetPosition, Y.WidgetStack, Y.WidgetPositionAlign, Y.Bottle.PushPop], {
+    ShortCut = Y.Base.create('btshortcut', Y.Widget, [Y.WidgetParent, Y.WidgetPosition, Y.WidgetStack, Y.Bottle.PushPop], {
         initializer: function () {
             if (!pageWidget) {
                 pageWidget = Y.Bottle.Page.getCurrent();
@@ -89,8 +94,9 @@ var Mask = Y.one('.bt-shortcut-mask') || Y.one('body').appendChild(Y.Node.create
 
         renderUI: function () {
             var O = this.get('boundingBox'),
-                W = O.get('offsetWidth'),
-                H = O.get('offsetHeight');
+                P = this.get('contentBox'),
+                W = O.get('offsetWidth') || P.get('offsetWidth'),
+                H = O.get('offsetHeight') || P.get('offsetHeight');
 
             if (!this.get('height') && H) {
                 this.set('height', H);
@@ -141,6 +147,22 @@ var Mask = Y.one('.bt-shortcut-mask') || Y.one('body').appendChild(Y.Node.create
             }
         },
 
+
+        /**
+         * get show or hide position of shortcut
+         *
+         * @method getshowHidePosition
+         */
+        getShowHidePosition: function (show) {
+            var selfDir = show ? 0 : 1,
+                posData = POSITIONS[this.get('showFrom')];
+
+            return [
+                Math.floor(posData[2] * Y.Bottle.Device.getBrowserWidth() + (selfDir * posData[0] - posData[2]) * this.get('width')), 
+                Math.floor(posData[3] * Y.Bottle.Device.getBrowserHeight() + (selfDir * posData[1] - posData[3]) * this.get('height')) + scrollBase.get('scrollTop')
+            ];
+        },
+
         /**
          * Update showed ShortCut position based on action and showFrom
          *
@@ -151,7 +173,8 @@ var Mask = Y.one('.bt-shortcut-mask') || Y.one('body').appendChild(Y.Node.create
             var pos = (E && E.showFrom) ? E.showFrom : this.get('showFrom'),
                 vis = (E && (E.visible !== undefined)) ? E.visible : this.get('visible'),
                 noAlign = (E && E.noAlign) ? true : false,
-                posData = POSITIONS[pos];
+                posData = POSITIONS[pos],
+                XY;
 
             if (!vis) {
                 return;
@@ -162,11 +185,12 @@ var Mask = Y.one('.bt-shortcut-mask') || Y.one('body').appendChild(Y.Node.create
             }
 
             pageNode.setStyles({
-                left: -posData[1] * ((E && (E.attrName === 'width')) ? E.newVal : this.get('width')) + 'px',
-                top: -posData[2] * ((E && (E.attrName === 'height')) ? E.newVal : this.get('height')) + 'px'
+                left: -posData[0] * ((E && (E.attrName === 'width')) ? E.newVal : this.get('width')) + 'px',
+                top: -posData[1] * ((E && (E.attrName === 'height')) ? E.newVal : this.get('height')) + 'px'
             });
 
-            this.align(pageNode, [posData[3], posData[0]]);
+            XY = this.getShowHidePosition(true);
+            this.move(XY[0], XY[1]);
         },
 
         /**
@@ -178,11 +202,9 @@ var Mask = Y.one('.bt-shortcut-mask') || Y.one('body').appendChild(Y.Node.create
         _updatePositionHide: function (E) {
             var isUnveil = (this.get('action') === 'unveil'),
                 vis = (E && (E.visible !== undefined)) ? E.visible : this.get('visible'),
-                posData = POSITIONS[this.get('showFrom')];
+                XY = this.getShowHidePosition(vis || isUnveil);
 
-            if (!vis) {
-                this.align(null, [isUnveil ? posData[0] : posData[3], posData[0]]);
-            }
+            this.move(XY[0], XY[1]);
         },
 
         /**
@@ -204,16 +226,17 @@ var Mask = Y.one('.bt-shortcut-mask') || Y.one('body').appendChild(Y.Node.create
          * @param left {Number} css left in px
          * @param top {Number} css top in px
          * @param [done] {Function} If provided, call this function when transition done
+         * @param bottom {Boolean} If true, use bottom attribute to do transition
          * @protected
          */
-        _doTransition: function (node, left, top, done) {
-            var that = this;
+        _doTransition: function (node, left, top, done, bottom) {
+            var that = this,
+                tr = Y.merge(this.get('scTrans'), {left: left + 'px'});
+
+            tr[bottom ? 'bottom' : 'top'] = top + 'px';
 
             Y.later(1, this, function () {
-                node.transition(Y.merge(this.get('scTrans'), {
-                    left: left + 'px',
-                    top: top + 'px'
-                }), function () {
+                node.transition(tr, function () {
                     if (done) {
                         done.apply(that);
                     }
@@ -270,10 +293,10 @@ var Mask = Y.one('.bt-shortcut-mask') || Y.one('body').appendChild(Y.Node.create
          */
         _doShowHide: function (E) {
             var show = E.newVal,
-                selfDir = show ? 0 : 1,
                 pageDir = show ? -1 : 0,
                 posData = POSITIONS[this.get('showFrom')],
-                node = this.get('boundingBox');
+                node = this.get('boundingBox'),
+                XY;
 
             if (show) {
                 this.enable();
@@ -289,10 +312,24 @@ var Mask = Y.one('.bt-shortcut-mask') || Y.one('body').appendChild(Y.Node.create
             }
             this.set('zIndex', ShortCut.ZINDEX_HIDE);
 
-            this._doTransition(pageNode, pageDir * posData[1] * this.get('width'), pageDir * posData[2] * this.get('height'), this._doneShowHide);
+            XY = [pageDir * posData[0] * this.get('width'), pageDir * posData[1] * this.get('height')];
+
+            if (fixedPos && pageWidget.get('nativeScroll')) {
+                pageWidget.each(function (O) {
+                    if (O.get('headerFixed')) {
+                        this._doTransition(O.get('headerNode'), XY[0], XY[1]);
+                    }
+                    if (O.get('footerFixed')) {
+                        this._doTransition(O.get('footerNode'), XY[0], -XY[1], null, true);
+                    }
+                }, this);
+            }
+
+            this._doTransition(pageNode, XY[0], XY[1], this._doneShowHide);
 
             if (this.get('action') !== 'unveil') {
-                this._doTransition(node, posData[4] * pageNode.get('offsetWidth') + (selfDir * posData[1] - posData[4]) * this.get('width'), posData[5] * pageNode.get('offsetHeight') + (selfDir * posData[2] - posData[5]) * this.get('height'));
+                XY = this.getShowHidePosition(show);
+                this._doTransition(node, XY[0], XY[1]);
             }
         }
     }, {
@@ -348,7 +385,7 @@ var Mask = Y.one('.bt-shortcut-mask') || Y.one('body').appendChild(Y.Node.create
                 setter: function (V) {
                     var F,
                         B = this.get('contentBox'), 
-                        fwh = POSITIONS[V][1];
+                        fwh = POSITIONS[V][0];
 
                     if (V === this.get('showFrom')) {
                         return V;
@@ -453,10 +490,7 @@ var Mask = Y.one('.bt-shortcut-mask') || Y.one('body').appendChild(Y.Node.create
          */
         HTML_PARSER: {
             mask: function (srcNode) {
-                if (srcNode.getData('mask') === 'false') {
-                    return false;
-                }
-                return true;
+                return (srcNode.getData('mask') === 'false') ? false : true;
             },
 
             action: function (srcNode) {
@@ -530,10 +564,15 @@ var Mask = Y.one('.bt-shortcut-mask') || Y.one('body').appendChild(Y.Node.create
 
 Y.Bottle.ShortCut = ShortCut;
 
-//create shortcut mask
-Mask.on('click', function () {
+// hide shortcut when click mask
+Mask.on(hasTouch ? 'gesturemoveend' : 'click', function () {
     current.hide();
 });
 
+// disable scroll on mask
+Mask.on('gesturemovestart', function (E) {
+    E.preventDefault();
+});
 
-}, '@VERSION@' ,{requires:['widget-position-align', 'gallery-bt-page']});
+
+}, '@VERSION@' ,{requires:['gallery-bt-page']});
